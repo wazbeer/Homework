@@ -43,3 +43,16 @@ def test_category_count(category: Category, product_3):
 
     assert Category.category_count == 2
     assert Category.product_count == 3
+
+
+def test_product_count(category: Category, product_3):
+    Category.add_product(category, product_3)
+    assert Category.product_count == 3
+
+
+def test_product_category(category: Category, product_3):
+    products_str = category.products
+    assert (
+        products_str
+        == "Product 1, 1.0 руб. Остаток: 1 шт.\nProduct 2, 2.0 руб. Остаток: 1 шт.\n"
+    )
