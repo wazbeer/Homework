@@ -9,6 +9,11 @@ def product():
 
 
 @pytest.fixture
+def product_2():
+    return Product("name", "description", 1.0, 1)
+
+
+@pytest.fixture
 def product_dict():
     return {"name": "name", "description": "description", "price": 1.0, "quantity": 1}
 
@@ -41,3 +46,11 @@ def test_product_data(product_dict):
     assert new_product.description == "description"
     assert new_product.price == 1.0
     assert new_product.quantity == 1
+
+
+def test_product_str(product):
+    assert str(product) == "name, 1.0 руб. Остаток: 1 шт."
+
+
+def test_product_add(product, product_2):
+    assert Product.__add__(product, product_2) == 2.0

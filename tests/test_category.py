@@ -56,3 +56,7 @@ def test_product_category(category: Category, product_3):
         products_str
         == "Product 1, 1.0 руб. Остаток: 1 шт.\nProduct 2, 2.0 руб. Остаток: 1 шт.\n"
     )
+
+
+def test_category_str(category):
+    assert Category.__str__(category) == "Category 1, количество продуктов: 2 шт."

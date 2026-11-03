@@ -28,7 +28,7 @@ class Product:
             self.__price = new_price
 
     def __str__(self) -> str:
-        return f"{self.name}, {self.price} руб. Остаток: {self.price} {self.quantity} шт."
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other) -> float:
         return (self.price * self.quantity) + (other.price * other.quantity)
