@@ -59,4 +59,9 @@ def test_product_category(category: Category, product_3):
 
 
 def test_category_str(category):
-    assert Category.__str__(category) == "Category 1, количество продуктов: 2 шт."
+    assert str(category) == "Category 1, количество продуктов: 2 шт."
+
+
+def test_add_invalid_product(category):
+    with pytest.raises(TypeError):
+        category.add_product("Not a product")

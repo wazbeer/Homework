@@ -1,6 +1,6 @@
 import pytest
 
-from src.products import Product
+from src.products import LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -18,11 +18,44 @@ def product_dict():
     return {"name": "name", "description": "description", "price": 1.0, "quantity": 1}
 
 
+@pytest.fixture
+def smartphone():
+    return Smartphone("name", "description", 1.0, 1, 1.0, "model", 1, "color")
+
+
+@pytest.fixture
+def grass():
+    return LawnGrass(
+        "name", "description", 1.0, 1, "country", "germination_period", "color"
+    )
+
+
 def test_product(product):
     assert product.name == "name"
     assert product.description == "description"
     assert product.price == 1.0
     assert product.quantity == 1
+
+
+def test_smartphone(smartphone):
+    assert smartphone.name == "name"
+    assert smartphone.description == "description"
+    assert smartphone.price == 1.0
+    assert smartphone.quantity == 1
+    assert smartphone.efficiency == 1.0
+    assert smartphone.model == "model"
+    assert smartphone.memory == 1
+    assert smartphone.color == "color"
+
+
+def test_grass(grass):
+    assert grass.name == "name"
+    assert grass.description == "description"
+    assert grass.price == 1.0
+    assert grass.quantity == 1
+    assert grass.country == "country"
+    assert grass.germination_period == "germination_period"
+    assert grass.color == "color"
 
 
 def test_negative_price(product):
@@ -53,4 +86,9 @@ def test_product_str(product):
 
 
 def test_product_add(product, product_2):
-    assert Product.__add__(product, product_2) == 2.0
+    assert product + product_2 == 2.0
+
+
+def test_add_different_product_types(smartphone, grass):
+    with pytest.raises(TypeError):
+        _ = smartphone + grass
