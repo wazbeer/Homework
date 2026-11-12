@@ -1,6 +1,6 @@
 import pytest
 
-from src.products import LawnGrass, Product, Smartphone
+from src.products import BaseProduct, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -92,3 +92,41 @@ def test_product_add(product, product_2):
 def test_add_different_product_types(smartphone, grass):
     with pytest.raises(TypeError):
         _ = smartphone + grass
+
+
+def test_print_mixin(capsys):
+    Product("Product_1", "description", 1.0, 1)
+    captured = capsys.readouterr()
+    assert "Product('Product_1', 'description', 1.0, 1)" in captured.out
+
+
+def test_BaseProduct():
+    pytest.raises(TypeError, lambda: BaseProduct("Product_1", "description", 1.0, 1))
+
+
+def test_smartphone_mixin(capsys):
+    Smartphone("name", "description", 1.0, 1, 1.0, "model", 1, "color")
+    captured = capsys.readouterr()
+    assert "Smartphone('name', 'description', 1.0, 1)\n" in captured.out
+
+
+def test_grass_mixin(capsys):
+    LawnGrass("name", "description", 1.0, 1, "country", "germination_period", "color")
+    captured = capsys.readouterr()
+    assert "LawnGrass('name', 'description', 1.0, 1)\n" in captured.out
+
+
+def test_MRO(smartphone, grass, product):
+    assert issubclass(Smartphone, Product)
+    assert issubclass(Smartphone, BaseProduct)
+    assert issubclass(LawnGrass, Product)
+    assert issubclass(LawnGrass, BaseProduct)
+    assert not issubclass(LawnGrass, Smartphone)
+    assert not issubclass(Smartphone, LawnGrass)
+    assert isinstance(smartphone, BaseProduct)
+    assert isinstance(smartphone, Smartphone)
+    assert isinstance(smartphone, Product)
+    assert not isinstance(smartphone, LawnGrass)
+    assert isinstance(grass, BaseProduct)
+    assert isinstance(grass, Product)
+    assert isinstance(grass, LawnGrass)

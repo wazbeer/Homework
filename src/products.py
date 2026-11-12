@@ -1,4 +1,7 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
     def __init__(
         self, name: str, description: str, price: float, quantity: int
     ) -> None:
@@ -8,13 +11,9 @@ class Product:
         self.quantity = quantity
 
     @classmethod
+    @abstractmethod
     def new_product(cls, product_data: dict):
-        return cls(
-            product_data["name"],
-            product_data["description"],
-            product_data["price"],
-            product_data["quantity"],
-        )
+        pass  # pragma: no cover
 
     @property
     def price(self):
@@ -35,6 +34,30 @@ class Product:
             raise TypeError("Нельзя складывать товары разных классов")
         else:
             return (self.price * self.quantity) + (other.price * other.quantity)
+
+
+class PrintMixin:
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        print(
+            f"{self.__class__.__name__}({self.name!r}, {self.description!r}, {self.price!r}, {self.quantity!r})"  # type: ignore[attr-defined]
+        )
+
+
+class Product(PrintMixin, BaseProduct):
+    def __init__(
+        self, name: str, description: str, price: float, quantity: int
+    ) -> None:
+        super().__init__(name, description, price, quantity)
+
+    @classmethod
+    def new_product(cls, product_data: dict):
+        return cls(
+            product_data["name"],
+            product_data["description"],
+            product_data["price"],
+            product_data["quantity"],
+        )
 
 
 class Smartphone(Product):
