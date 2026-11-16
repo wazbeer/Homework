@@ -1,6 +1,6 @@
 /.idea
 /.venv
-.coverage
+/.coverage
 __pycache__/
 *.pyc
 src/__pycache__/

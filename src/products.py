@@ -9,6 +9,8 @@ class BaseProduct(ABC):
         self.description = description
         self.__price = price
         self.quantity = quantity
+        if self.quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
     @classmethod
     @abstractmethod
@@ -40,7 +42,7 @@ class PrintMixin:
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         print(
-            f"{self.__class__.__name__}({self.name!r}, {self.description!r}, {self.price!r}, {self.quantity!r})"  # type: ignore[attr-defined]
+            f"{self.__class__.__name__}({self.name!r}, {self.description!r}, {self.price!r}, {self.quantity!r})"
         )
 
 

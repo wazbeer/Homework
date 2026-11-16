@@ -20,6 +20,11 @@ def product_3():
 
 
 @pytest.fixture
+def category_error():
+    return Category("Category Error", "description", [])
+
+
+@pytest.fixture
 def category(product_1, product_2):
     return Category("Category 1", "description", [product_1, product_2])
 
@@ -65,3 +70,11 @@ def test_category_str(category):
 def test_add_invalid_product(category):
     with pytest.raises(TypeError):
         category.add_product("Not a product")
+
+
+def test_middle_price(category):
+    assert category.middle_price() == 1.5
+
+
+def test_zero_division_exception(category_error):
+    assert category_error.middle_price() == 0.0

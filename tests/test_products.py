@@ -130,3 +130,10 @@ def test_MRO(smartphone, grass, product):
     assert isinstance(grass, BaseProduct)
     assert isinstance(grass, Product)
     assert isinstance(grass, LawnGrass)
+
+
+def test_zero_quantity():
+    with pytest.raises(
+        ValueError, match="Товар с нулевым количеством не может быть добавлен"
+    ):
+        Product("Product_1", "description", 1.0, 0)
